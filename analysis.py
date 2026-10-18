@@ -1,28 +1,35 @@
-
 import pandas as pd
 
 
+"""Oblicza podstawowe wskaźniki dotyczące aktywności użytkowników."""
 def calculate_metrics(users, posts, comments, todos):
+
+    # Obliczamy liczbę wszystkich użytkowników, postów i komentarzy.
     total_users = len(users)
     total_posts = len(posts)
     total_comments = len(comments)
     total_todos = len(todos)
 
+     # Zliczamy zadania oznaczone jako wykonane.
     completed_todos = int(todos["completed"].sum())
 
+    # Obliczamy średnią liczbę postów przypadających na użytkownika.
     posts_per_user = (
         total_posts / total_users if total_users else 0
     )
 
+    # Obliczamy średnią liczbę komentarzy przypadających na post.
     comments_per_post = (
         total_comments / total_posts if total_posts else 0
     )
 
+    # Obliczamy procent wykonanych zadań.
     completed_percentage = (
         completed_todos / total_todos * 100
         if total_todos else 0
     )
 
+    # Zwracamy wszystkie wskaźniki w jednym słowniku.
     return {
         "total_users": total_users,
         "total_posts": total_posts,
@@ -34,14 +41,17 @@ def calculate_metrics(users, posts, comments, todos):
         "completed_percentage": completed_percentage,
     }
 
-
+"""Przygotowuje zestawienie aktywności każdego użytkownika."""
 def get_user_activity(users, posts, todos):
+
+    # Zliczamy posty opublikowane przez poszczególnych użytkowników.
     post_counts = (
         posts.groupby("userId")
         .size()
         .rename("post_count")
     )
 
+    
     todo_stats = (
         todos.groupby("userId")["completed"]
         .agg(["sum", "count"])
