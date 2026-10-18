@@ -8,7 +8,6 @@ from analysis import calculate_metrics, get_user_activity, get_post_comment_coun
 
 st.set_page_config(
     page_title="API Data Analytics",
-    page_icon="📊",
     layout="wide",
 )
 
